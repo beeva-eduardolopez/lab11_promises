@@ -1,15 +1,13 @@
 
-function parsePromised(object) {
-    var promise = new Promise(function(resolve, reject) {
-        var obj = JSON.parse(object);
-        throw(process.argv[2]);
-    });
+function parsePromised (json) {
+  return new Promise(function (fulfill, reject) {
+    try {
+      fulfill(JSON.parse(json));
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
-    return promise.catch(function(error) {
-        throw(error);
-    });
-}
-
-parsePromised().catch(function(error) {
-    console.log(error);
-});
+parsePromised(process.argv[2])
+.then(null, console.log)

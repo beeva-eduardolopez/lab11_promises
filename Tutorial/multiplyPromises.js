@@ -1,33 +1,27 @@
-
-
-function all(prom1, prom2) {
-
+function all(a, b) {
+  return new Promise(function (fulfill, reject) {
     var counter = 0;
-    var val1;
-    var val2;
+    var out = [];
 
-    prom1
-        .then(function (result) {
-            val1 = result;
-            counter++;
-            if (counter >= 2){
-              Promise.resolve([val1, val2]);  
-            } 
-        })
+    a.then(function (val) {
+      out[0] = val;
+      counter++;
 
+      if (counter >= 2) {
+        fulfill(out);
+      }
+    });
 
-    prom2
-        .then(function (result) {
-            val2 = result;
-            counter++;
-            if (counter >= 2) {
-                Promise.resolve([val1, val2]);
-            }
-        })
+    b.then(function (val) {
+      out[1] = val;
+      counter++;
 
-
-    return prom1,prom2;
+      if (counter >= 2) {
+        fulfill(out);
+      }
+    });
+  });
 }
 
-
-
+all(getPromise1(), getPromise2())
+  .then(console.log);
